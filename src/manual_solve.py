@@ -9,11 +9,57 @@ import re
 ### specific tasks by transforming the input x and returning the
 ### result. Name them according to the task ID as in the three
 ### examples below. Delete the three examples. The tasks you choose
-### must be in the data/training directory, not data/evaluation.
+### must be in the data/training directory, not data/evaluation. 25d8a9c8
 def solve_6a1e5592(x):
     return x
 
-def solve_b2862040(x):
+def solve_1a07d186(x):
+    same_color_rows_indexes = []
+    same_color_rows_values = []
+    ind_color_indexes = []
+    ind_color_values = []
+    same_color_row_exist =False
+    x_transpose = False
+    for i in x:
+        if np.all(i==i[0]) and i[0] is not 0:
+            same_color_row_exist = True
+            break
+    
+    if not same_color_row_exist:
+        x_transpose = True
+        
+    if x_transpose:
+        x = x.transpose()       
+
+    rows, columns = x.shape
+
+    for i in range(rows):
+        if np.all(x[i]==x[i][0]) and x[i][0] != 0:
+            same_color_rows_values.append(x[i][0])
+            same_color_rows_indexes.append(i)
+    for i  in range(rows):
+        if i not in same_color_rows_indexes:
+            for j in range (columns):
+                if x[i][j] != 0:
+                    ind_color_indexes.append((i,j))
+                    ind_color_values.append(x[i][j])
+
+    for i,v in zip(ind_color_indexes,ind_color_values):
+        if v in same_color_rows_values:
+            ind = same_color_rows_values.index(v)
+            r_ind = same_color_rows_indexes[ind]
+            if r_ind > i[0]:
+                x[r_ind-1][i[1]] = v
+                x[i[0]][i[1]] = 0
+            else:
+                x[r_ind+1][i[1]] = v
+                x[i[0]][i[1]] = 0
+        else:
+            x[i[0]][i[1]] = 0
+
+    if x_transpose:
+        x = x.transpose()
+    
     return x
 
 def solve_05269061(x):
