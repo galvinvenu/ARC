@@ -134,6 +134,10 @@ def solve_25d8a9c8(x):
             x[i] = 0
     return x
 
+
+### 94f9d214 - Split the input into half. Identify the points where there is no color on both halfs. create a new out put 2Darray filled with 0s. 
+### All the positions identified with no color, on both halves, update the solution matrix with color that is mean of 2 colors in the input
+
 def solve_94f9d214(x):    
     ls_unique_colors = np.unique(x)
     ls_unique_colors = ls_unique_colors[ls_unique_colors != 0]

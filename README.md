@@ -70,3 +70,4 @@ Galvin: Completed solution solve_c8cbb738
 Galvin: Completed solution solve_9565186b
 Galvin: Completed solution solve_25d8a9c8
 Galvin: Updated Student Information, comments and did additional Solution solve_94f9d214
+Galvin: Added comments about the last solution that was added.
