@@ -4,14 +4,51 @@ import os, sys
 import json
 import numpy as np
 import re
+from collections import Counter
+import itertools
 
 ### YOUR CODE HERE: write at least three functions which solve
 ### specific tasks by transforming the input x and returning the
 ### result. Name them according to the task ID as in the three
 ### examples below. Delete the three examples. The tasks you choose
 ### must be in the data/training directory, not data/evaluation. 25d8a9c8
-def solve_6a1e5592(x):
-    return x
+def solve_c8cbb738(x):
+    out_row_size =0
+    out_col_size = 0
+    # find unique colors in the grid and most common color in the grid
+    SimpleList = itertools.chain.from_iterable(x)
+    most_common_color = Counter(SimpleList).most_common(1)[0][0]   
+    ls_unique_colors = np.unique(x)
+    ls_unique_colors = ls_unique_colors[ls_unique_colors != most_common_color]
+    ls_unique_colors_positions = []
+    ls_unique_colors_size = []
+    for color in ls_unique_colors:
+        sol = np.where(x == color)
+        ls_unique_colors_positions.append(sol)
+        row_size = (max(sol[0])-min(sol[0]))+1
+        col_size = (max(sol[1])-min(sol[1]))+1  
+        ls_unique_colors_size.append((row_size,col_size))          
+        if out_row_size < row_size:
+            out_row_size = row_size
+        if out_col_size < col_size:
+            out_col_size = col_size
+    # create solution grid with most common color
+    solution = np.full((out_row_size, out_col_size), most_common_color, dtype=int)
+    # add unique colors to proper positions
+    for positions, color, size in zip(ls_unique_colors_positions, ls_unique_colors, ls_unique_colors_size):
+        min_row = min(positions[0])
+        min_col = min(positions[1])
+        for i,j in zip(positions[0],positions[1]):
+            if size[0]==out_row_size:
+                i -= min_row
+            else:
+                i = (i-min_row)+int(out_row_size/size[0])
+            if size[1]==out_col_size:
+                j -= min_col
+            else:
+                j = (j-min_col)+int(out_col_size/size[1])
+            solution[i][j] = color
+    return solution
 
 def solve_1a07d186(x):
     same_color_rows_indexes = []
@@ -62,7 +99,21 @@ def solve_1a07d186(x):
     
     return x
 
-def solve_05269061(x):
+def solve_9565186b(x):
+    SimpleList = itertools.chain.from_iterable(x)
+    most_common_color = Counter(SimpleList).most_common(1)[0][0]   
+    #change all the other to grey = 5
+    x[x != most_common_color] = 5
+    return x
+
+def solve_25d8a9c8(x):
+    #identify rows with one color only
+    for i in range(x.shape[0]):
+        result = np.all(x[i] == x[i][0])
+        if result:
+            x[i] = 5
+        else:
+            x[i] = 0
     return x
 
 

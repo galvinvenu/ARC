@@ -66,3 +66,6 @@ After you've obtained the correct answer for the current test input grid, you ca
 When you're done with a task, use the "load task" button to open a new task.
 
 Galvin: Completed 1 solution solve_1a07d186
+Galvin: Completed solution solve_c8cbb738
+Galvin: Completed solution solve_9565186b
+Galvin: Completed solution solve_25d8a9c8
