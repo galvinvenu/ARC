@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+# Student Name : Galvin Venugopal
+# Student ID : 20235245
+# github: https://github.com/galvinvenu/ARC
+
 import os, sys
 import json
 import numpy as np
@@ -12,6 +16,10 @@ import itertools
 ### result. Name them according to the task ID as in the three
 ### examples below. Delete the three examples. The tasks you choose
 ### must be in the data/training directory, not data/evaluation. 25d8a9c8
+
+### c8cbb738 - Identify the most common color and the other colors. Identify the size of the output grid by finding the largest grid from the position of the other colors. 
+### Create the out put grid and fill it with the most common color. for each of the other colors identify the relative position in the new output grid and set the colorts on those positions.   
+
 def solve_c8cbb738(x):
     out_row_size =0
     out_col_size = 0
@@ -22,6 +30,7 @@ def solve_c8cbb738(x):
     ls_unique_colors = ls_unique_colors[ls_unique_colors != most_common_color]
     ls_unique_colors_positions = []
     ls_unique_colors_size = []
+    # identify the out shape and position and size of the colors that is not same as most common color
     for color in ls_unique_colors:
         sol = np.where(x == color)
         ls_unique_colors_positions.append(sol)
@@ -50,6 +59,11 @@ def solve_c8cbb738(x):
             solution[i][j] = color
     return solution
 
+### 1a07d186 - Identify the rows which has the same color and is not black. If no such row is found then transpose the grid and search if any columns exist with the same color. Once identified, find the individually present colors and their poistions. 
+### If the individually found color is the same as the solid color rows, then move the individual point next to the solid color rows. depending on the side of the solid color row. 
+### If the inidividual color point is below the solid color row then move it to the row below the solid color row , similarly the individual points qabove the solid color rows move it just above the solid color row. 
+### If the matrix was transposed - transpose it back before returning it back to the caller 
+
 def solve_1a07d186(x):
     same_color_rows_indexes = []
     same_color_rows_values = []
@@ -58,7 +72,7 @@ def solve_1a07d186(x):
     same_color_row_exist =False
     x_transpose = False
     for i in x:
-        if np.all(i==i[0]) and i[0] is not 0:
+        if np.all(i==i[0]) and i[0] != 0:
             same_color_row_exist = True
             break
     
@@ -99,6 +113,8 @@ def solve_1a07d186(x):
     
     return x
 
+### 9565186b - identify the most common color in the grid and convert all the others to Grey.
+
 def solve_9565186b(x):
     SimpleList = itertools.chain.from_iterable(x)
     most_common_color = Counter(SimpleList).most_common(1)[0][0]   
@@ -106,8 +122,10 @@ def solve_9565186b(x):
     x[x != most_common_color] = 5
     return x
 
+### 25d8a9c8 - For each row check if the row is single colored, if yes - covert it to grey; else convert it to black
+
 def solve_25d8a9c8(x):
-    #identify rows with one color only
+    #identify rows with one color only, change to grey if same color, else black
     for i in range(x.shape[0]):
         result = np.all(x[i] == x[i][0])
         if result:
@@ -115,6 +133,24 @@ def solve_25d8a9c8(x):
         else:
             x[i] = 0
     return x
+
+def solve_94f9d214(x):    
+    ls_unique_colors = np.unique(x)
+    ls_unique_colors = ls_unique_colors[ls_unique_colors != 0]
+    newarr = np.vsplit(x, 2)
+    output_shape = newarr[0].shape
+    size = output_shape[0]*output_shape[1]
+    sol = np.zeros(output_shape, dtype=int)
+    positions = []
+    
+    for i,j,p in zip(newarr[0].flat[0:size],newarr[1].flat[0:size],np.arange(size)):
+        if i == 0 and j==0:
+            positions.append(p)
+    
+    for p in positions:
+        sol.flat[p] = int(np.mean(ls_unique_colors))
+
+    return sol
 
 
 def main():
