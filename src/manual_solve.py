@@ -20,6 +20,8 @@ import itertools
 ### c8cbb738 - Identify the most common color and the other colors. Identify the size of the output grid by finding the largest grid from the position of the other colors. 
 ### Create the out put grid and fill it with the most common color. for each of the other colors identify the relative position in the new output grid and set the colorts on those positions.   
 
+### Test for ashwin
+
 def solve_c8cbb738(x):
     out_row_size =0
     out_col_size = 0
